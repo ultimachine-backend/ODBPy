@@ -8,6 +8,7 @@ from collections import namedtuple
 from .Decoder import DecoderOption, run_decoder
 from .Structures import *
 from .Utils import try_parse_number
+from .Attributes import parse_attributes  # Fixed: Missing import
 
 __all__ = ["components_decoder_options", "parse_components",
            "consolidate_component_tags", "Component", "map_components_by_name"]
@@ -95,11 +96,12 @@ def component_name_to_id(name):
 
 def parse_components(components):
     # Build rulesets
+    # Fixed: Only process sections that start with "CMP" (not attribute sections)
     return {
         component_name_to_id(name): consolidate_component_tags(
             list(run_decoder(component, components_decoder_options)))
         for name, component in components.items()
-        if name is not None
+        if name is not None and name.startswith("CMP")
     }
 
 def map_components_by_name(components):

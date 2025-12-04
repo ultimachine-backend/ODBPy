@@ -19,6 +19,16 @@ def parse_attributes_from_line(line):
     attribute_str = line.partition(";")[2].strip()
     return parse_attributes(attribute_str) if attribute_str else {}
 
+def _parse_numeric(s):
+    """Try to parse as int, then float, then return string"""
+    try:
+        return int(s)
+    except ValueError:
+        try:
+            return float(s)
+        except ValueError:
+            return s
+
 def parse_attributes(attribute_str):
     """
     Given the attribute part from a line record file,
@@ -27,6 +37,7 @@ def parse_attributes(attribute_str):
 
     Example:
         parse_attributes("0=0,2=0") => {0: 0, 2: 0}
+        parse_attributes("0=2,1=0.1799") => {0: 2, 1: 0.1799}
     """
     # Split into individual key/value pairs
     attrs = (s.strip() for s in attribute_str.split(","))
@@ -34,8 +45,8 @@ def parse_attributes(attribute_str):
     part_attrs = (
         attr.partition("=") if "=" in attr else (attr, None, True)
         for attr in attrs)
-    # Create dict of ints
+    # Create dict - Fixed: Use flexible numeric parsing for values
     return {
-        int(attr[0]): int(attr[2]) if not isinstance(attr[2], bool) else attr[2]
+        int(attr[0]): _parse_numeric(attr[2]) if not isinstance(attr[2], bool) else attr[2]
         for attr in part_attrs
     }

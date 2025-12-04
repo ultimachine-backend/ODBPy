@@ -54,7 +54,8 @@ def _standard_symbol_factory(name, regex, field_names, parsefunc):
 Round = _standard_symbol_factory("Round", r"^r([\.\d]+)$", ["diameter"], _parse_allfloat)
 Square = _standard_symbol_factory("Square", r"^s([\.\d]+)$", ["side"], _parse_allfloat)
 
-Rectangle = _standard_symbol_factory("Rectangle", r"^r([\.\d]+)x([\.\d]+)$",
+# Fixed: Allow both 'r' and 'rect' prefix for rectangle symbols (Altium exports use 'rect')
+Rectangle = _standard_symbol_factory("Rectangle", r"^rect?([\.\d]+)x([\.\d]+)$",
     ["width", "height"], _parse_allfloat)
 
 Oval = _standard_symbol_factory("Oval", r"^oval([\.\d]+)x([\.\d]+)$", ["width", "height"], _parse_allfloat)

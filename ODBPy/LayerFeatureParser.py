@@ -13,7 +13,9 @@ from .Structures import SymbolReference
 import re
 
 # See http://www.odb-sa.com/wp-content/uploads/ODB_Format_Description_v7.pdf p. 112
-_pad_re = re.compile(r"^P\s+(-?[\.\d]+)\s+(-?[\.\d]+)\s+(\d+|-1\s+\d+\s+-?[\.\d]+)\s+([PN])\s+(\d+)\s+([1-7]|[8-9]\s+-?[\.\d]+)(;\s*.+?)?$")
+# Fixed: Allow orientation 0 (no rotation) - original only allowed 1-7
+# Fixed: Allow space before semicolon in attributes
+_pad_re = re.compile(r"^P\s+(-?[\.\d]+)\s+(-?[\.\d]+)\s+(\d+|-1\s+\d+\s+-?[\.\d]+)\s+([PN])\s+(\d+)\s+([0-7]|[8-9]\s+-?[\.\d]+)\s*(;\s*.+?)?$")
 # _pad_re.match('P -35.7225 2.064 0 P 0 8 0;0=2,1=0')
 _line_re = re.compile(r"^L\s+(-?[\.\d]+)\s+(-?[\.\d]+)\s+(-?[\.\d]+)\s+(-?[\.\d]+)\s+(\d+)\s+([PN])\s+(\d+)(;\s*.+?)?$")
 

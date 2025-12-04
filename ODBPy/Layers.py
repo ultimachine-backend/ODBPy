@@ -82,7 +82,9 @@ class LayerType(Enum):
     Document = 8
     Mixed = 9 # Mixed plane & signal
     Mask = 10 # GenFlex additional information
-    
+    Dielectric = 11 # Added: Stack-up dielectric layers
+    PowerGround = 12 # Added: Power/ground plane layers
+
 _layer_type_map = { # See ODB++ 7.0 spec page 38
     "COMPONENT": LayerType.Component,
     "SILK_SCREEN": LayerType.SilkScreen,
@@ -93,7 +95,9 @@ _layer_type_map = { # See ODB++ 7.0 spec page 38
     "ROUT": LayerType.Route,
     "DOCUMENT": LayerType.Document,
     "MIXED": LayerType.Mixed,
-    "MASK": LayerType.Mask
+    "MASK": LayerType.Mask,
+    "DIELECTRIC": LayerType.Dielectric,  # Added
+    "POWER_GROUND": LayerType.PowerGround,  # Added
 }
 
 def parse_layers(matrix):
